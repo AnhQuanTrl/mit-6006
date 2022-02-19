@@ -1,12 +1,13 @@
 from typing import Type
 import pytest
+from dsa.datastructure.linked_list import LinkedList
 from dsa.datastructure.static_array import StaticArray
 from dsa.interface.sequence import Sequence
 from tests.helper.custom_type import FixtureRequest
 
 
 class TestSequence:
-    @pytest.fixture(params=[StaticArray[int]])
+    @pytest.fixture(params=[StaticArray[int], LinkedList[int]])
     def implementation(self, request: FixtureRequest[Type[Sequence[int]]]):
         return request.param
 
@@ -47,3 +48,11 @@ class TestSequence:
     def test_iter(self, sequence_from_build: Sequence[int]):
         for i, j in zip(sequence_from_build, (a for a in range(10))):
             assert i == j
+
+    def test_random_access(self, sequence_from_build: Sequence[int]):
+        assert sequence_from_build.get_at(5) == 5
+        assert sequence_from_build.get_at(9) == 9
+        sequence_from_build.set_at(9, 20)
+        assert sequence_from_build.get_at(9) == 20
+        with pytest.raises(IndexError):
+            sequence_from_build.set_at(10, 30)
