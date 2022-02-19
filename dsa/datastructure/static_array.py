@@ -7,21 +7,21 @@ T = TypeVar("T")
 
 class StaticArray(Sequence[T], Generic[T]):
     def __init__(self):
-        self.arr: List[T] = []
+        self.arr: List[Optional[T]] = []
         self.size: int = 0
 
     def __len__(self) -> int:
         return self.size
 
     def __iter__(self) -> Iterator[T]:
-        yield from self.arr
+        yield from (a for a in self.arr if a is not None)
 
     def build(self, X: Iterable[T]) -> None:
         self.arr = [a for a in X]
         self.size = len(self.arr)
 
     def get_at(self, i: int) -> T:
-        return self.arr[i]
+        return cast(T, self.arr[i])
 
     def set_at(self, i: int, x: T) -> None:
         self.arr[i] = x

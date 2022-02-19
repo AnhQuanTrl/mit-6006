@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Generic, Iterable, Iterator, Optional, TypeVar
+from typing import Generic, Optional, TypeVar
+from collections.abc import Iterator, Iterable
 
 from dsa.interface.sequence import Sequence
 
