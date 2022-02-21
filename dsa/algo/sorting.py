@@ -35,3 +35,13 @@ class SelectionSort(Sort[T], Generic[T]):
                 if data[j] < data[min_index]:
                     min_index = j
             data[i], data[min_index] = data[min_index], data[i]
+
+
+class InsertionSort(Sort[T], Generic[T]):
+    def sort(self, data: List[T]) -> None:
+        n = len(data)
+        for i in range(n):
+            j = i
+            while j > 0 and data[j] < data[j - 1]:
+                data[j - 1], data[j] = data[j], data[j - 1]
+                j -= 1

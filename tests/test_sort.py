@@ -1,12 +1,12 @@
 from typing import Type
 import pytest
 
-from dsa.algo.sorting import BubbleSort, SelectionSort, Sort
+from dsa.algo.sorting import BubbleSort, InsertionSort, SelectionSort, Sort
 from tests.helper.custom_type import FixtureRequest
 
 
 class TestSort:
-    @pytest.fixture(params=[BubbleSort[int], SelectionSort[int]])
+    @pytest.fixture(params=[BubbleSort[int], SelectionSort[int], InsertionSort[int]])
     def implementation(self, request: FixtureRequest[Type[Sort[int]]]):
         return request.param()
 
