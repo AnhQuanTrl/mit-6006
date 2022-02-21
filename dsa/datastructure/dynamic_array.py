@@ -61,6 +61,8 @@ class DynamicArray(StaticArray[T], Generic[T]):
         self.size += 1
 
     def delete_last(self) -> T:
+        if len(self) == 0:
+            raise IndexError("list index out of range")
         x = self.arr[self.size - 1]
         assert x is not None
         self.size -= 1
@@ -73,6 +75,8 @@ class DynamicArray(StaticArray[T], Generic[T]):
         self.arr[i] = x
 
     def delete_at(self, i: int) -> T:
+        if i >= len(self):
+            raise IndexError("list index out of range")
         x = self.arr[i]
         assert x is not None
         self._copy_forward(i + 1, self.size - (i + 1), self.arr, i)

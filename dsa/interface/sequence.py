@@ -1,21 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
-from collections.abc import Iterable, Iterator
+from typing import Generic, Sized, TypeVar
+from collections.abc import Iterable
 
 T = TypeVar("T")
 
 
-class Sequence(ABC, Generic[T]):
+class Sequence(ABC, Sized, Iterable[T], Generic[T]):
     @abstractmethod
     def build(self, X: Iterable[T]) -> None:
-        pass
-
-    @abstractmethod
-    def __len__(self) -> int:
-        pass
-
-    @abstractmethod
-    def __iter__(self) -> Iterator[T]:
         pass
 
     @abstractmethod
