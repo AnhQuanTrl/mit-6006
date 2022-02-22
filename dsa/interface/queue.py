@@ -1,26 +1,25 @@
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar
-from collections.abc import Iterable, Iterator
-
+from typing import Generic, Iterable, Optional, TypeVar
+from collections.abc import Iterator
 
 T = TypeVar("T")
 
 
-class Stack(ABC, Iterable[T], Generic[T]):
+class Queue(ABC, Generic[T]):
     def build(self, X: Iterable[T]) -> None:
         for x in X:
-            self.push(x)
+            self.enqueue(x)
 
     @abstractmethod
     def peek(self) -> Optional[T]:
         pass
 
     @abstractmethod
-    def pop(self) -> T:
+    def enqueue(self, item: T) -> None:
         pass
 
     @abstractmethod
-    def push(self, item: T) -> None:
+    def dequeue(self) -> T:
         pass
 
     @abstractmethod
@@ -29,9 +28,9 @@ class Stack(ABC, Iterable[T], Generic[T]):
 
     def __iter__(self) -> Iterator[T]:
         while not self.is_empty():
-            yield self.pop()
+            yield self.dequeue()
 
 
-class StackUnderflowException(Exception):
-    def __init__(self, msg: str = "Stack is underflowed", *args: object) -> None:
+class EmptyQueueException(Exception):
+    def __init__(self, msg: str = "queue is empty", *args: object) -> None:
         super().__init__(msg, *args)

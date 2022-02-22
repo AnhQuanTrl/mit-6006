@@ -100,6 +100,7 @@ class LinkedList(Sequence[T], Generic[T]):
         assert deleted_node
         x = deleted_node.item
         node.next = deleted_node.next
+        self.size -= 1
         return x
 
     def insert_last(self, x: T) -> None:

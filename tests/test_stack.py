@@ -16,6 +16,12 @@ class TestStack:
     def empty_stack(self, implementation: Type[Stack[int]]):
         return implementation()
 
+    @pytest.fixture()
+    def stack_from_build(self, implementation: Type[Stack[int]]):
+        built = implementation()
+        built.build(i for i in range(5))
+        return built
+
     def test_empty_stack(self, empty_stack: Stack[int]):
         assert empty_stack.peek() is None
         assert empty_stack.is_empty()
@@ -27,14 +33,17 @@ class TestStack:
         just_add = empty_stack.pop()
         assert just_add == 10
 
-    def test_build(self, implementation: Type[Stack[int]]):
+    def test_build(self, stack_from_build: Stack[int]):
         max_num = 5
-        built = implementation()
-        built.build(i for i in range(max_num))
-        top = built.peek()
+        top = stack_from_build.peek()
         assert top == max_num - 1
         for i in range(3):
-            t = built.pop()
+            t = stack_from_build.pop()
             assert t == max_num - 1 - i
-        top = built.peek()
+        top = stack_from_build.peek()
         assert top == max_num - 4
+
+    def test_iter(self, stack_from_build: Stack[int]):
+        max_num = 5
+        for i, s in enumerate(stack_from_build):
+            assert s == max_num - 1 - i
