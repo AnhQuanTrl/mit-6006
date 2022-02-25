@@ -6,6 +6,9 @@ T = TypeVar("T")
 
 
 class StaticArray(Sequence[T], Generic[T]):
+    arr: List[Optional[T]]
+    size: int
+
     def __init__(self):
         self.arr: List[Optional[T]] = []
         self.size: int = 0
