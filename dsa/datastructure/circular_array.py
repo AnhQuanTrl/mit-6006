@@ -68,7 +68,7 @@ class CircularArray(StaticArray[T], Generic[T]):
         x = self.arr[self.head]
         assert x is not None
         self.arr[self.head] = None
-        self.head += 1
+        self.head = self._compute_index(1)
         self.size -= 1
         self._resize(self.size)
         return x
