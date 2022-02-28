@@ -1,5 +1,6 @@
 from typing import Type
 import pytest
+from dsa.datastructure.linked_list_deque import LinkedListDeque
 
 from dsa.interface.deque import Deque, EmptyDequeException
 from tests.helper.custom_type import FixtureRequest
@@ -7,7 +8,7 @@ from dsa.datastructure.circular_array_deque import CircularArrayDeque
 
 
 class TestDeque:
-    @pytest.fixture(params=[CircularArrayDeque[int]])
+    @pytest.fixture(params=[CircularArrayDeque[int], LinkedListDeque[int]])
     def implementation(self, request: FixtureRequest[Type[Deque[int]]]):
         return request.param
 

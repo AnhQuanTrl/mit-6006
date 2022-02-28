@@ -40,6 +40,7 @@ class LinkedList(Sequence[T], Generic[T]):
             node = node.next
 
     def build(self, X: Iterable[T]) -> None:
+        self._clear()
         current_node: Optional[LinkedListNode[T]] = None
         for x in X:
             if not current_node:
@@ -108,3 +109,7 @@ class LinkedList(Sequence[T], Generic[T]):
 
     def delete_last(self) -> T:
         return self.delete_at(len(self) - 1)
+
+    def _clear(self) -> None:
+        while self.size > 0:
+            self.delete_first()

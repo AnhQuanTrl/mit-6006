@@ -1,6 +1,7 @@
 from typing import Type
 import pytest
 from dsa.datastructure.circular_array import CircularArray
+from dsa.datastructure.doubly_linked_list import DoublyLinkedList
 from dsa.datastructure.dynamic_array import DynamicArray
 from dsa.datastructure.linked_list import LinkedList
 from dsa.datastructure.static_array import StaticArray
@@ -17,6 +18,7 @@ class TestSequence:
             DynamicArray[int],
             TailLinkedList[int],
             CircularArray[int],
+            DoublyLinkedList[int],
         ]
     )
     def implementation(self, request: FixtureRequest[Type[Sequence[int]]]):
