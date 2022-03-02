@@ -60,11 +60,11 @@ class DoublyLinkedList(Sequence[T], Generic[T]):
 
     @property
     def head(self) -> Optional[DoublyLinkedListNode[T]]:
-        return self.header.next
+        return self.header.next if self.size else None
 
     @property
     def tail(self) -> Optional[DoublyLinkedListNode[T]]:
-        return self.trailer.prev
+        return self.trailer.prev if self.size else None
 
     def build(self, X: Iterable[T]) -> None:
         self._clear()
@@ -73,23 +73,23 @@ class DoublyLinkedList(Sequence[T], Generic[T]):
 
     def insert_first(self, x: T) -> None:
         assert self.header.next
-        return self._insert_between(x, self.header, self.header.next)
+        self._insert_between(x, self.header, self.header.next)
 
     def insert_last(self, x: T) -> None:
         assert self.trailer.prev
-        return self._insert_between(x, self.trailer.prev, self.trailer)
+        self._insert_between(x, self.trailer.prev, self.trailer)
 
     def delete_first(self) -> T:
         if self.size == 0:
             raise IndexError("list index out of range")
         assert self.header.next
-        return self._delete(self.header.next)
+        return self._delete_node(self.header.next)
 
     def delete_last(self) -> T:
         if self.size == 0:
             raise IndexError("list index out of range")
         assert self.trailer.prev
-        return self._delete(self.trailer.prev)
+        return self._delete_node(self.trailer.prev)
 
     def get_at(self, i: int) -> T:
         if i >= len(self):
@@ -128,20 +128,21 @@ class DoublyLinkedList(Sequence[T], Generic[T]):
         assert self.head
         node = self.head.later_node(i - 1)
         assert node.next
-        return self._delete(node.next)
+        return self._delete_node(node.next)
 
     def _insert_between(
         self,
         x: T,
         predecessor: DoublyLinkedListNode[T],
         successor: DoublyLinkedListNode[T],
-    ):
+    ) -> DoublyLinkedListNode[T]:
         new_node = DoublyLinkedListNode(x, next=successor, prev=predecessor)
         predecessor.next = new_node
         successor.prev = new_node
         self.size += 1
+        return new_node
 
-    def _delete(self, node: DoublyLinkedListNode[T]) -> T:
+    def _delete_node(self, node: DoublyLinkedListNode[T]) -> T:
         assert node.next
         assert node.prev
         assert node.item is not None
@@ -149,8 +150,10 @@ class DoublyLinkedList(Sequence[T], Generic[T]):
         successor = node.next
         predecessor.next = node.next
         successor.prev = node.prev
+        x = node.item
+        node.prev = node.next = node.item = None
         self.size -= 1
-        return node.item
+        return x
 
     def _clear(self):
         while self.size > 0:
